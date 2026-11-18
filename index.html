@@ -3,15 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق سَكِينَة</title>
+    <title>تثبيت تطبيق سكينة</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#021812">
-    <meta http-equiv="refresh" content="0;url=https://sakinah1.ai.studio/">
-    <script>
-        window.location.replace("https://sakinah1.ai.studio/");
-    </script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #021812;
+            color: #ffffff;
+            font-family: Tahoma, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        img {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        h1 { font-size: 26px; margin: 0 0 10px; color: #ffffff; }
+        p { color: #a7f3d0; font-size: 16px; margin: 0 0 35px; }
+        #install-btn {
+            background-color: #10b981;
+            color: #021812;
+            border: none;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+        }
+        #hint {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #9ca3af;
+            display: none;
+            max-width: 320px;
+            line-height: 1.5;
+        }
+    </style>
 </head>
-<body style="background-color: #021812; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Tahoma;">
-    <p>جاري فتح تطبيق سكينة...</p>
+<body>
+    <img src="https://sakinah1.ai.studio/pwa-512x512.png" alt="سكينة">
+    <h1>تطبيق سَكِينَة</h1>
+    <p>القرآن الكريم، الأذكار، ومواقيت الصلاة</p>
+    <button id="install-btn">📥 تثبيت التطبيق الآن</button>
+    <div id="hint">إذا لم تظهر نافذة التثبيت، اضغط على زر القائمة (⋮) أعلى المتصفح واختر "تثبيت التطبيق".</div>
+
+    <script>
+        // تسجيل Service Worker فارغ لتفعيل خاصية الـ PWA على جيت هب
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+        const hint = document.getElementById('hint');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const choiceResult = await deferredPrompt.userChoice;
+                if (choiceResult.outcome === 'accepted') {
+                    // بعد إتمام التثبيت، تحويل المستخدم فوراً لموقع ai.studio الأصلي
+                    setTimeout(() => {
+                        window.location.href = "https://sakinah1.ai.studio/";
+                    }, 500);
+                }
+                deferredPrompt = null;
+            } else {
+                // إذا لم تظهر النافذة التلقائية، انتقل مباشرة للموقع الأصلي لتعرضه للمستخدم
+                window.location.href = "https://sakinah1.ai.studio/";
+            }
+        });
+    </script>
 </body>
 </html>
