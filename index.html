@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تثبيت تطبيق سكينة</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#021812">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #021812;
+            color: #ffffff;
+            font-family: Tahoma, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        img {
+            width: 110px;
+            height: 110px;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        h1 { font-size: 24px; margin: 0 0 10px; }
+        p { color: #a7f3d0; font-size: 15px; margin: 0 0 30px; }
+        #install-btn {
+            background-color: #10b981;
+            color: #021812;
+            border: none;
+            padding: 16px 36px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        #hint {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #9ca3af;
+            display: none;
+            max-width: 300px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://sakinah1.ai.studio/pwa-512x512.png" alt="سكينة">
+    <h1>تطبيق سَكِينَة</h1>
+    <p>القرآن الكريم، الأذكار، ومواقيت الصلاة</p>
+    <button id="install-btn">📥 تثبيت التطبيق الآن</button>
+    <div id="hint">إذا لم تظهر نافذة التثبيت التلقائية، اضغط على زر القائمة (⋮) أعلى متصفحك واختر "تثبيت التطبيق".</div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+        const hint = document.getElementById('hint');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+            } else {
+                hint.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
