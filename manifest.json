@@ -1,32 +1,16 @@
 {
   "name": "سَكِينَة | SAKINAH",
   "short_name": "سكينة",
-  "description": "سكينة منصة إسلامية مجانية للجميع، تتيح قراءة القرآن الكريم والاستماع إليه، والأذكار والأدعية والأحاديث النبوية ومواقيت الصلاة.",
   "start_url": "https://sakinah1.ai.studio/",
   "display": "standalone",
   "background_color": "#021812",
   "theme_color": "#021812",
-  "lang": "ar",
-  "scope": "/",
-  "id": "/",
-  "dir": "rtl",
   "orientation": "portrait-primary",
   "icons": [
-    {
-      "src": "https://sakinah1.ai.studio/pwa-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
     {
       "src": "https://sakinah1.ai.studio/pwa-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
-    },
-    {
-      "src": "https://sakinah1.ai.studio/pwa-maskable-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ]
 }
